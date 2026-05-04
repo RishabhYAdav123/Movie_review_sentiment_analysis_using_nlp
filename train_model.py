@@ -43,7 +43,7 @@ def main():
 
     vectorizer = TfidfVectorizer(
         stop_words="english",
-        max_features=20000,
+        max_features=8000,
         ngram_range=(1, 2),
         min_df=2,
         sublinear_tf=True,
@@ -61,6 +61,9 @@ def main():
     accuracy = accuracy_score(y_test, predictions)
     print(f"Accuracy: {accuracy:.4f}")
     print(classification_report(y_test, predictions, target_names=["negative", "positive"]))
+
+    if hasattr(vectorizer, "stop_words_"):
+        delattr(vectorizer, "stop_words_")
 
     joblib.dump(model, MODEL_PATH)
     joblib.dump(vectorizer, VECTORIZER_PATH)
